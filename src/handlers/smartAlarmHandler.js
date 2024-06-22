@@ -45,6 +45,7 @@ module.exports = {
                 if (!(await rustplus.isResponseValid(info))) {
                     if (instance.serverList[serverId].alarms[entityId].reachable) {
                         await DiscordMessages.sendSmartAlarmNotFoundMessage(guildId, serverId, entityId);
+                        console.log("SmartAlarmHandler")
 
                         instance.serverList[serverId].alarms[entityId].reachable = false;
                         client.setInstance(guildId, instance);

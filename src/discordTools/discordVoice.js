@@ -56,12 +56,20 @@ module.exports = {
     getSmartDeviceNotFoundVoice: async function (guildId, serverId, entityId) {
         const instance = Client.client.getInstance(guildId);
         const server = instance.serverList[serverId];
+        let _entity = null;
     
         // Check each possible source for the entity
-        const entity =  (server.alarms[entityId] !== undefined && server.alarms[entityId] !== null) ? server.alarms[entityId] :
-                        (server.storageMonitors[entityId] !== undefined && server.storagemonitors[entityId] !== null) ? server.storagemonitors[entityId] :
-                        server.switches[entityId];
-    
+
+        if(server.alarms[entityId]){
+            _entity = entityId;
+        }
+        else if(server.storageMonitors[entityId]){
+            _entity = entityId;
+        }
+        else if(server.switches[entityId]){
+            _entity = entityId;
+        }
+
         if (!entity) {
             console.error(`Entity with ID ${entityId} not found in alarms, storagemonitors, or switches.`);
             return;
@@ -69,10 +77,10 @@ module.exports = {
     
         const credentials = InstanceUtils.readCredentialsFile(guildId);
         const user = await DiscordTools.getUserById(guildId, credentials[server.steamId].discordUserId);
-        const grid = entity.location !== null ? ` (${entity.location})` : '';
+        const grid = _entity.location !== null ? ` (${_entity.location})` : '';
     
         let voice = Client.client.intlGet(guildId, 'smartDeviceNotFound', {
-            device: `${entity.name}${grid}`,
+            device: `${_entity.name}${grid}`,
             user: user.user.username
         });
         console.log(voice);
