@@ -1058,7 +1058,10 @@ module.exports = {
 
     getInfoEmbed: async function (guildId) {
         const osInfo = `${os.type()} ${os.release()}`;
-        const osUptime = `${Math.floor(os.uptime() / 86400)} Days ${String(Math.floor((os.uptime() % 86400) / 3600)).padStart(2, '0')}h ${String(Math.floor((os.uptime() % 3600) / 60)).padStart(2, '0')}m ${String(Math.floor(os.uptime() % 60)).padStart(2, '0')}s`;
+        const osUptime = `${Math.floor(os.uptime() / 86400)} Days ${
+            String(Math.floor((os.uptime() % 86400) / 3600)).padStart(2, '0')}h ${
+            String(Math.floor((os.uptime() % 3600) / 60)).padStart(2, '0')}m ${
+            String(Math.floor(os.uptime() % 60)).padStart(2, '0')}s`;
         const osHostname = os.hostname();
         const cpuInfo = `${os.arch()} (${os.cpus().length} cores)`;
         const cpuUsed = (await usagePercent({ coreIndex: 0, sampleMs: 2000 })).percent;
