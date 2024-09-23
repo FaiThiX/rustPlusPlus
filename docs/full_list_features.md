@@ -6,7 +6,7 @@
 - **/blacklist** - Blacklist a user from using the bot.
 - **/cctv** - Get cctv camera codes for monuments.
 - **/craft** - Display the cost to craft an item.
-- **/credentials** - Setup FCM-Credentials.
+- **/credentials** - Setup Credentials.
 - **/decay** - Display the decay time of an item.
 - **/help** - Get help message.
 - **/item** - Get the details of an item.
@@ -60,6 +60,7 @@
 - **unmute** - Unmute rustplusplus In-Game.
 - **upkeep** - Check upkeep of Storage Monitor Tool Cupboards.
 - **uptime** - Display the uptime of rustplusplus and currently connected server.
+- **vendor** - Get information regarding the Traveling Vendor
 - **wipe** - Display time since wipe.
 
 ## Smart Devices

@@ -2254,8 +2254,7 @@ class RustPlus extends RustPlusLib {
     }
 
     async getCommandSend(command, callerName) {
-        //const credentials = InstanceUtils.readCredentialsFile(this.guildId);
-        const authTokens = InstanceUtils.readAuthTokensFile(this.guildId);
+        const credentials = InstanceUtils.readCredentialsFile(this.guildId);
         const prefix = this.generalSettings.prefix;
         const commandSend = `${prefix}${Client.client.intlGet(this.guildId, 'commandSyntaxSend')}`;
         const commandSendEn = `${prefix}${Client.client.intlGet('en', 'commandSyntaxSend')}`;
@@ -2275,15 +2274,13 @@ class RustPlus extends RustPlusLib {
 
         for (const player of this.team.players) {
             if (player.name.includes(name)) {
-                //if (!(player.steamId in credentials)) {
-                if (!(player.steamId in authTokens)) {
+                if (!(player.steamId in credentials)) {
                     return Client.client.intlGet(this.guildId, 'userNotRegistered', {
                         user: player.name
                     });
                 }
 
-                //const discordUserId = credentials[player.steamId].discordUserId;
-                const discordUserId = authTokens[player.steamId].discordUserId;
+                const discordUserId = credentials[player.steamId].discord_user_id;
                 const user = await DiscordTools.getUserById(this.guildId, discordUserId);
 
                 const content = {
@@ -2706,6 +2703,48 @@ class RustPlus extends RustPlusLib {
                 time: this.info.getTimeSinceWipe()
             });
         }
+    }
+
+    getCommandTravelingVendor(isInfoChannel = false) {
+        const strings = [];
+        for (const travelingVendor of this.mapMarkers.travelingVendors) {
+            if (isInfoChannel) {
+                return Client.client.intlGet(this.guildId, 'atLocation', {
+                    location: travelingVendor.location.string
+                });
+            }
+            else {
+                strings.push(Client.client.intlGet(this.guildId, 'travelingVendorLocatedAt', {
+                    location: travelingVendor.location.string
+                }));
+            }
+        }
+
+        if (strings.length === 0) {
+            const wasOnMap = this.mapMarkers.timeSinceTravelingVendorWasOnMap;
+
+            if (wasOnMap == null) {
+                return isInfoChannel ? Client.client.intlGet(this.guildId, 'notActive') :
+                    Client.client.intlGet(this.guildId, 'travelingVendorNotCurrentlyOnMap');
+            }
+            else if (wasOnMap !== null) {
+                const secondsSince = (new Date() - wasOnMap) / 1000;
+                if (isInfoChannel) {
+                    const timeSince = Timer.secondsToFullScale(secondsSince, 's');
+                    return Client.client.intlGet(this.guildId, 'timeSinceLast', {
+                        time: timeSince
+                    });
+                }
+                else {
+                    const timeSince = Timer.secondsToFullScale(secondsSince);
+                    return Client.client.intlGet(this.guildId, 'timeSinceTravelingVendorWasOnMap', {
+                        time: timeSince
+                    });
+                }
+            }
+        }
+
+        return strings;
     }
 }
 
