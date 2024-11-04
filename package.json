@@ -19,7 +19,7 @@
     },
     "homepage": "https://github.com/alexemanuelol/rustplusplus#readme",
     "dependencies": {
-        "@discordjs/rest": "^1.6.0",
+        "@discordjs/rest": "^2.4.0",
         "@discordjs/voice": "^0.16.0",
         "@formatjs/intl": "^2.10.13",
         "@liamcottle/push-receiver": "^0.0.4",
